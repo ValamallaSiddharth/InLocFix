@@ -1,7 +1,7 @@
-// src/pages/Services.jsx — Premium Gradient Theme Marketplace
+// src/pages/Services.jsx — Premium Marketplace with URL-based category selection
 
-import { useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useMemo, useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { getAllCategories } from '../data/serviceData'
 import { useCart } from '../context/CartContext'
 import Breadcrumb from '../components/Breadcrumb'
@@ -37,11 +37,19 @@ const SORT_OPTIONS = [
 
 export default function Services() {
   const allCategories = getAllCategories()
+  const { category: urlCategory } = useParams()
   const [activeCategory, setActiveCategory] = useState(allCategories[0]?.id || '')
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('default')
   const [showSortMenu, setShowSortMenu] = useState(false)
   const { addToCart, removeFromCart, updateQuantity, getItemQuantity, cartItems, cartCount, cartTotal } = useCart()
+
+  // Sync URL param → active category
+  useEffect(() => {
+    if (urlCategory && allCategories.find(c => c.id === urlCategory)) {
+      setActiveCategory(urlCategory)
+    }
+  }, [urlCategory])
 
   const currentCategory = allCategories.find(c => c.id === activeCategory)
 

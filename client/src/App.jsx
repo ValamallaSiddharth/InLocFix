@@ -36,7 +36,7 @@ function App() {
 
                 {/* Service Marketplace */}
                 <Route path="/services" element={<Services />} />
-                <Route path="/services/:category" element={<ServiceCategory />} />
+                <Route path="/services/:category" element={<Services />} />
                 <Route path="/cart" element={<Cart />} />
 
                 <Route
